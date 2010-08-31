@@ -31,14 +31,21 @@ src_unpack() {
 
 src_install() {
 	# erlang module
-	local targetdir="/usr/$(get_libdir)/erlang/lib/${PN/-/_}-${PV}/"
+	local erllibdir="/usr/$(get_libdir)/erlang/lib/"
+	local server="${PN/-/_}-${PV}/"
+	local common="rabbit_common-${PV}/"
+	local targetdir="${erllibdir}/${server}"
+	local commondir="${erllibdir}/${common}"
 
 	einfo "Correcting additional Erlang code path in scripts"
 	sed -i -e "s:\`dirname \$0\`\/..\/ebin:${targetdir}:g" scripts/* || die "sed failed"
 
 	einfo "Installing Erlang module to ${targetdir}"
 	dodir "${targetdir}"
+	dodir "${commondir}/include"
 	cp -dpR ebin include "${D}/${targetdir}"
+	ln -s "../../${server}/include/rabbit.hrl" "${D}/${commondir}/include"
+	ln -s "../../${server}/include/rabbit_framing.hrl" "${D}/${commondir}/include"
 
 	einfo "Installing server scripts to /usr/sbin"
 	# Install server scripts to sbin

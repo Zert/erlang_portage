@@ -38,10 +38,11 @@ src_compile() {
 
 src_install() {
 	# erlang module
-	local targetdir="/usr/$(get_libdir)/erlang/lib/${PN/-/_}-${PV}/"
+	local targetdir="/usr/$(get_libdir)/erlang/lib/amqp_client-${PV}/"
 
 	einfo "Installing Erlang module to ${targetdir}"
-	dodir "${targetdir}"
-	cp -dpR ebin include "${D}/${targetdir}"
+	dodir "${targetdir}/ebin/"
+	cp -dpR include "${D}/${targetdir}"
+	cp -dpR ebin/*.{beam,app} "${targetdir}/ebin/"
 }
 

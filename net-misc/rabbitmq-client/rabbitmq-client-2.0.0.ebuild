@@ -42,6 +42,7 @@ src_install() {
 
 	einfo "Installing Erlang module to ${targetdir}"
 	dodir "${targetdir}"
-	cp -dpR dist/amqp_client dist/rabbit_common "${D}/${targetdir}"
+	cp -dpR dist/amqp_client "${D}/${targetdir}/amqp_client-0.0.0"
+	cp -dpR dist/rabbit_common "${D}/${targetdir}/rabbit_common-0.0.0"
 }
 
